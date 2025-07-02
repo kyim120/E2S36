@@ -1,3 +1,26 @@
+# Project
+### 💼 Overview
+
+Your system will allow users to:
+- Add income and expenses
+- View current balance
+- Display transaction history by category
+- Save and load data from a file (bonus: persistence)
+
+---
+
+### 🧱 OOP Concepts Applied
+
+| OOP Concept    | How It's Used                                                                 |
+|----------------|------------------------------------------------------------------------------|
+| Encapsulation  | Use private members and public getters/setters in classes like `Transaction` |
+| Inheritance    | Create a base class `Transaction`, then derive `Income` and `Expense`        |
+| Polymorphism   | Use virtual functions to process transactions differently                    |
+| Abstraction    | Abstract details behind interfaces, such as how data is stored or displayed |
+
+---
+
+
 ## 🔧 1. **Color Definitions (For Attractive Output)**
 
 ```cpp
