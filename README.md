@@ -1,255 +1,271 @@
-### 🧱 1. **Header Files and Constants**
-```cpp
-#include <iostream>
-#include <string>
-using namespace std;
+## 🔧 1. **Color Definitions (For Attractive Output)**
 
-const int MAX_EXPENSES = 100;
+```cpp
+#define GREEN   "\033[1;32m"
+#define RED     "\033[1;31m"
+#define CYAN    "\033[1;36m"
+#define YELLOW  "\033[1;33m"
+#define RESET   "\033[0m"
 ```
-- `#include <iostream>` and `#include <string>`: Let you use input/output (`cin`, `cout`) and strings.
-- `using namespace std;`: Avoids writing `std::` before standard library names.
-- `MAX_EXPENSES`: Sets a maximum limit for stored expenses (here, 100).
+
+- These are ANSI escape codes used for coloring text in terminals.
+- Makes output readable and engaging — for example, incomes are green, expenses are red.
 
 ---
 
-### 🧾 2. **Expense Class**
+## 🧩 2. **Base Class: `Transaction`**
+
 ```cpp
-class Expense {
+class Transaction {
+protected:
+    string date;
+    double amount;
+    string category;
+public:
+    Transaction(string d, double amt, string cat)
+        : date(d), amount(amt), category(cat) {}
+    virtual void display() const = 0; // pure virtual = abstract method
+    virtual double getAmount() const { return amount; }
+    virtual bool isIncome() const = 0;
+    virtual ~Transaction() {}
+};
+```
+
+### ✨ OOP Concepts:
+- **Abstraction**: Users don’t need to know how transactions are stored.
+- **Polymorphism**: `display()` and `isIncome()` are virtual — behavior changes in derived classes.
+
+---
+
+## ➕ 3. **Derived Classes: `Income` and `Expense`**
+
+```cpp
+class Income : public Transaction {
+    ...
+};
+
+class Expense : public Transaction {
     ...
 };
 ```
-Encapsulates data related to a **single** expense.
 
-**Attributes:**
-- `category`: Type of expense (e.g., Food, Travel).
-- `date`: In format "DD-MM-YYYY".
-- `amount`: Amount spent (as float).
-- `description`: Additional info about the expense.
+- These **inherit** from `Transaction` and override `display()` and `isIncome()`.
 
-**Member Functions:**
-- `input()`: Prompts user to enter each field.
-- `display(int index)`: Displays a formatted summary of the expense.
+### ✨ OOP Concepts:
+- **Inheritance**: Both are types of `Transaction`.
+- **Polymorphism** again: They behave differently when `display()` is called.
 
-🧠 _Smart usage_: `cin.ignore()` clears leftover input buffer, ensuring `getline()` works properly after `cin`.
+Output examples:
+```
+[INCOME]  2025-07-01 | +$1500.00 | Salary
+[EXPENSE] 2025-07-02 | -$300.00  | Groceries
+```
 
 ---
 
-### 🗃 3. **ExpenseManager Class**
+## 📦 4. **`FinanceManager` Class**
+
 ```cpp
-class ExpenseManager {
+class FinanceManager {
 private:
-    Expense expenses[MAX_EXPENSES];
-    int count;
-...
+    vector<shared_ptr<Transaction>> records;
+public:
+    void addTransaction(...);
+    void showAll() const;
+    double getBalance() const;
 };
 ```
-Handles multiple expenses using:
-- `expenses[]`: Fixed-size array storing up to 100 `Expense` objects.
-- `count`: Tracks the number of stored expenses.
+
+- Stores all transactions using `shared_ptr` to handle polymorphism safely.
+- Can:
+  - Add income/expense
+  - Show transaction history
+  - Calculate total balance
+
+### ✨ OOP Concepts:
+- **Encapsulation**: All logic and data are grouped in this class.
+- **Polymorphism**: Uses base class pointers to store various transaction types.
 
 ---
 
-### 🛠 4. **ExpenseManager Functions**
+## 🧭 5. **Menu System & Main Function**
 
-#### 📥 `addExpense()`
-- Adds a new expense at the next available position.
-- Uses `Expense::input()` to gather data.
-
-#### 📋 `viewAllExpenses()`
-- Lists all expenses by looping through `expenses[]`.
-- Calls `display()` for each.
-
-#### 📂 `viewByCategory()`
-- Prompts user for a category.
-- Filters and displays expenses that match.
-
-#### 💵 `viewTotalExpense()`
-- Sums up all amounts and displays the total spent.
-
-#### ❌ `deleteExpense()`
-- Deletes an expense by shifting the array elements.
-- Input index is adjusted (`index - 1`) to match array positions.
-- Reduces `count` accordingly.
-
----
-
-### 🧠 5. **Main Function Logic**
 ```cpp
+void showMenu() { ... }
+
 int main() {
-    ExpenseManager manager;
-    int choice;
+    FinanceManager fm;
     ...
+    do {
+        showMenu();
+        ...
+    } while (choice != 5);
 }
 ```
-Drives the entire program using a **menu loop**:
 
-- Uses a `do-while` loop to repeat menu options until user selects Exit (`choice == 6`).
-- Based on user input, the `switch` statement calls relevant `ExpenseManager` methods.
+- Shows an interactive menu:
+  1. Add Income
+  2. Add Expense
+  3. View Transactions
+  4. View Balance
+  5. Exit
 
-Each case (1–5) maps to a clear function:
-| Menu Option | Action                     |
-|-------------|----------------------------|
-| 1           | Add new expense            |
-| 2           | View all expenses          |
-| 3           | View expenses by category  |
-| 4           | View total expense         |
-| 5           | Delete an expense          |
-| 6           | Exit the program           |
+Example output:
+```
+💰 Current Balance: $1080.00
+👋 Exiting... Stay financially savvy!
+```
 
 ---
 
-### ⚙️ Additional Notes
-- Repeated use of `cin.ignore()` shows you're mindful of common pitfalls with mixed input methods. ✅
-- Would be even more robust with dynamic arrays or vectors (for future upgrades).
-- Potential extensions: CSV export, date range filtering, monthly report generation.
+## ✅ Summary of OOP Concepts Used
 
-# Code
+| Concept       | Where It's Applied |
+|---------------|--------------------|
+| Encapsulation | `FinanceManager` keeps all logic inside |
+| Inheritance   | `Income` and `Expense` inherit `Transaction` |
+| Polymorphism  | `display()` and `isIncome()` are used polymorphically |
+| Abstraction   | UI hides internal complexities from the user |
 
+---
 
 ```cpp
 #include <iostream>
-#include <string>
+#include <vector>
+#include <memory>
+#include <iomanip>
 using namespace std;
 
-const int MAX_EXPENSES = 100;
+// ANSI color codes for better terminal output
+#define GREEN   "\033[1;32m"
+#define RED     "\033[1;31m"
+#define CYAN    "\033[1;36m"
+#define YELLOW  "\033[1;33m"
+#define RESET   "\033[0m"
 
-class Expense {
-public:
-    string category;
+// Abstract base class
+class Transaction {
+protected:
     string date;
-    float amount;
-    string description;
-
-    void input() {
-        cout << "Enter category: ";
-        getline(cin, category);
-        cout << "Enter date (DD-MM-YYYY): ";
-        getline(cin, date);
-        cout << "Enter amount: ";
-        cin >> amount;
-        cin.ignore(); // we used this here to clear newline due to complexity of program 
-        cout << "Enter description: ";
-        getline(cin, description);
-    }
-
-    void display(int index) const {
-        cout << "Expense #" << index + 1 << "\n";
-        cout << "Category   : " << category << "\n";
-        cout << "Date       : " << date << "\n";
-        cout << "Amount     : ?" << amount << "\n";
-        cout << "Description: " << description << "\n";
-        cout << "-------------------------\n";
-    }
-};
-
-class ExpenseManager {
-private:
-    Expense expenses[MAX_EXPENSES];
-    int count;
-
+    double amount;
+    string category;
 public:
-    ExpenseManager() : count(0) {}
+    Transaction(string d, double amt, string cat)
+        : date(d), amount(amt), category(cat) {}
+    virtual void display() const = 0;
+    virtual double getAmount() const { return amount; }
+    virtual bool isIncome() const = 0;
+    virtual ~Transaction() {}
+};
 
-    void addExpense() {
-        if (count >= MAX_EXPENSES) {
-            cout << "Cannot add more expenses.\n";
-            return;
-        }
-        cout << "\n--- Add New Expense ---\n";
-        expenses[count].input();
-        count++;
-        cout << "Expense added successfully.\n";
+// Income class
+class Income : public Transaction {
+public:
+    Income(string d, double amt, string cat)
+        : Transaction(d, amt, cat) {}
+    void display() const override {
+        cout << GREEN << "[INCOME]  " << RESET
+             << setw(10) << date << " | +$"
+             << fixed << setprecision(2) << amount
+             << " | " << category << endl;
+    }
+    bool isIncome() const override { return true; }
+};
+
+// Expense class
+class Expense : public Transaction {
+public:
+    Expense(string d, double amt, string cat)
+        : Transaction(d, amt, cat) {}
+    void display() const override {
+        cout << RED << "[EXPENSE] " << RESET
+             << setw(10) << date << " | -$"
+             << fixed << setprecision(2) << amount
+             << " | " << category << endl;
+    }
+    bool isIncome() const override { return false; }
+};
+
+// Finance Manager
+class FinanceManager {
+private:
+    vector<shared_ptr<Transaction>> records;
+public:
+    void addTransaction(shared_ptr<Transaction> t) {
+        records.push_back(t);
+        cout << YELLOW << "✔ Transaction added!" << RESET << endl;
     }
 
-    void viewAllExpenses() const {
-        if (count == 0) {
-            cout << "No expenses recorded.\n";
+    void showAll() const {
+        if (records.empty()) {
+            cout << CYAN << "No transactions recorded yet." << RESET << endl;
             return;
         }
-        cout << "\n--- All Expenses ---\n";
-        for (int i = 0; i < count; i++) {
-            expenses[i].display(i);
-        }
+        cout << CYAN << "==== Transaction History ====" << RESET << endl;
+        for (const auto& t : records)
+            t->display();
     }
 
-    void viewByCategory() const {
-        if (count == 0) {
-            cout << "No expenses recorded.\n";
-            return;
-        }
-        cout << "Enter category to search: ";
-        string searchCategory;
-        getline(cin, searchCategory);
-        bool found = false;
-        for (int i = 0; i < count; i++) {
-            if (expenses[i].category == searchCategory) {
-                expenses[i].display(i);
-                found = true;
-            }
-        }
-        if (!found) {
-            cout << "No expenses found in category: " << searchCategory << "\n";
-        }
-    }
-
-    void viewTotalExpense() const {
-        float total = 0;
-        for (int i = 0; i < count; i++) {
-            total += expenses[i].amount;
-        }
-        cout << "Total Expenses: ?" << total << "\n";
-    }
-
-    void deleteExpense() {
-        if (count == 0) {
-            cout << "No expenses to delete.\n";
-            return;
-        }
-        cout << "Enter expense number to delete (1 to " << count << "): ";
-        int index;
-        cin >> index;
-        cin.ignore(); // this was used to clear newline and any sort of buffer 
-        if (index < 1 || index > count) {
-            cout << "Invalid index.\n";
-            return;
-        }
-        for (int i = index - 1; i < count - 1; i++) {
-            expenses[i] = expenses[i + 1];
-        }
-        count--;
-        cout << "Expense deleted.\n";
+    double getBalance() const {
+        double balance = 0;
+        for (const auto& t : records)
+            balance += (t->isIncome() ? t->getAmount() : -t->getAmount());
+        return balance;
     }
 };
 
+// Function to display menu
+void showMenu() {
+    cout << CYAN << "\n====== Personal Finance Menu ======\n" << RESET;
+    cout << "1. Add Income\n";
+    cout << "2. Add Expense\n";
+    cout << "3. View All Transactions\n";
+    cout << "4. View Current Balance\n";
+    cout << "5. Exit\n";
+    cout << "Choose an option: ";
+}
+
+// Main program
 int main() {
-    ExpenseManager manager;  
+    FinanceManager fm;
     int choice;
+    string date, category;
+    double amount;
 
     do {
-        cout << "\n===== Expense Tracker =====\n";
-        cout << "1. Add Expense\n";
-        cout << "2. View All Expenses\n";
-        cout << "3. View Expenses by Category\n";
-        cout << "4. View Total Expense\n";
-        cout << "5. Delete Expense\n";
-        cout << "6. Exit\n";
-        cout << "Enter your choice: ";
+        showMenu();
         cin >> choice;
-        cin.ignore(); // this is used to clear newline
 
-        switch (choice) {     //this is final options for all the output 
-        case 1: manager.addExpense(); break;
-        case 2: manager.viewAllExpenses(); break;
-        case 3: manager.viewByCategory(); break;
-        case 4: manager.viewTotalExpense(); break;
-        case 5: manager.deleteExpense(); break;
-        case 6: cout << "Exiting...\n"; break;
-        default: cout << "Invalid choice. Try again.\n";
+        switch (choice) {
+        case 1:
+            cout << "Enter date (YYYY-MM-DD): "; cin >> date;
+            cout << "Enter amount: $"; cin >> amount;
+            cout << "Enter category: "; cin >> ws; getline(cin, category);
+            fm.addTransaction(make_shared<Income>(date, amount, category));
+            break;
+        case 2:
+            cout << "Enter date (YYYY-MM-DD): "; cin >> date;
+            cout << "Enter amount: $"; cin >> amount;
+            cout << "Enter category: "; cin >> ws; getline(cin, category);
+            fm.addTransaction(make_shared<Expense>(date, amount, category));
+            break;
+        case 3:
+            fm.showAll();
+            break;
+        case 4:
+            cout << GREEN << "💰 Current Balance: $" << fixed << setprecision(2)
+                 << fm.getBalance() << RESET << endl;
+            break;
+        case 5:
+            cout << YELLOW << "👋 Exiting... Stay financially savvy!" << RESET << endl;
+            break;
+        default:
+            cout << RED << "Invalid option. Please try again." << RESET << endl;
         }
-    } while (choice != 6);
-    
-return 0;
-}
 
+    } while (choice != 5);
+
+    return 0;
+}
 
 ```
