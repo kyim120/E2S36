@@ -31,6 +31,13 @@ Here’s a clean version of the code with clear logic and simpler output. This v
 #include <memory>
 using namespace std;
 
+// 🎨 Color codes for terminal output
+#define GREEN   "\033[1;32m"   // For Income
+#define RED     "\033[1;31m"   // For Expense
+#define YELLOW  "\033[1;33m"   // For Balance
+#define CYAN    "\033[1;36m"   // For Menu
+#define RESET   "\033[0m"      // Reset color
+
 // Abstract base class
 class Transaction {
 protected:
@@ -39,48 +46,50 @@ protected:
     string category;
 public:
     Transaction(string d, double a, string c) : date(d), amount(a), category(c) {}
-    virtual void display() const = 0; // Pure virtual function
+    virtual void display() const = 0;
     virtual double getAmount() const { return amount; }
     virtual bool isIncome() const = 0;
     virtual ~Transaction() {}
 };
 
-// Derived class for income
+// Income class
 class Income : public Transaction {
 public:
     Income(string d, double a, string c) : Transaction(d, a, c) {}
     void display() const override {
-        cout << "[INCOME]  " << date << " | +" << amount << " | " << category << endl;
+        cout << GREEN << "[INCOME]  " << RESET
+             << date << " | +" << amount << " | " << category << endl;
     }
     bool isIncome() const override { return true; }
 };
 
-// Derived class for expense
+// Expense class
 class Expense : public Transaction {
 public:
     Expense(string d, double a, string c) : Transaction(d, a, c) {}
     void display() const override {
-        cout << "[EXPENSE] " << date << " | -" << amount << " | " << category << endl;
+        cout << RED << "[EXPENSE] " << RESET
+             << date << " | -" << amount << " | " << category << endl;
     }
     bool isIncome() const override { return false; }
 };
 
-// Finance Manager to handle records
+// Finance Manager class
 class FinanceManager {
 private:
-    vector<shared_ptr<Transaction>> records;  // Holds both income & expenses
+    vector<shared_ptr<Transaction>> records;
 public:
     void addTransaction(shared_ptr<Transaction> t) {
         records.push_back(t);
-        cout << "Transaction added successfully!\n";
+        cout << YELLOW << "✅ Transaction added successfully!" << RESET << endl;
     }
 
     void showAll() const {
         if (records.empty()) {
-            cout << "No transactions to display.\n";
+            cout << CYAN << "📂 No transactions to display." << RESET << endl;
             return;
         }
-        cout << "\n--- Transaction History ---\n";
+        cout << CYAN << "\n📜 --- Transaction History ---\n" << RESET;
         for (const auto& t : records)
             t->display();
     }
@@ -93,18 +102,23 @@ public:
     }
 };
 
-// Function to display menu
+// Colorful Menu
 void showMenu() {
-    cout << "\n--- MENU ---\n";
-    cout << "1. Add Income\n";
-    cout << "2. Add Expense\n";
-    cout << "3. View All Transactions\n";
-    cout << "4. View Balance\n";
-    cout << "5. Exit\n";
-    cout << "Choose an option: ";
+    cout << CYAN;
+    cout << "\n==============================\n";
+    cout << "   💼 PERSONAL FINANCE MENU   \n";
+    cout << "==============================\n";
+    cout << " 1. ➕ Add Income\n";
+    cout << " 2. ➖ Add Expense\n";
+    cout << " 3. 📋 View All Transactions\n";
+    cout << " 4. 💰 View Balance\n";
+    cout << " 5. 🚪 Exit\n";
+    cout << "------------------------------\n";
+    cout << " Enter your choice (1-5): ";
+    cout << RESET;
 }
 
-// Main program logic
+// Main Function
 int main() {
     FinanceManager fm;
     int choice;
@@ -117,14 +131,14 @@ int main() {
 
         switch (choice) {
         case 1:
-            cout << "Enter date: "; cin >> date;
+            cout << "Enter date (e.g., 2025-07-01): "; cin >> date;
             cout << "Enter amount: "; cin >> amount;
             cout << "Enter category: "; cin >> ws; getline(cin, category);
             fm.addTransaction(make_shared<Income>(date, amount, category));
             break;
 
         case 2:
-            cout << "Enter date: "; cin >> date;
+            cout << "Enter date (e.g., 2025-07-02): "; cin >> date;
             cout << "Enter amount: "; cin >> amount;
             cout << "Enter category: "; cin >> ws; getline(cin, category);
             fm.addTransaction(make_shared<Expense>(date, amount, category));
@@ -135,15 +149,15 @@ int main() {
             break;
 
         case 4:
-            cout << "Current Balance: " << fm.getBalance() << endl;
+            cout << YELLOW << "💰 Current Balance: " << fm.getBalance() << RESET << endl;
             break;
 
         case 5:
-            cout << "Goodbye! Stay in control of your finances.\n";
+            cout << CYAN << "👋 Exiting... Stay financially smart!" << RESET << endl;
             break;
 
         default:
-            cout << "Invalid option. Please choose again.\n";
+            cout << RED << "❌ Invalid choice. Please choose between 1-5." << RESET << endl;
         }
 
     } while (choice != 5);
