@@ -103,6 +103,8 @@ Each case (1–5) maps to a clear function:
 - Would be even more robust with dynamic arrays or vectors (for future upgrades).
 - Potential extensions: CSV export, date range filtering, monthly report generation.
 
+# Code
+
 
 ```cpp
 #include <iostream>
