@@ -102,3 +102,152 @@ Each case (1–5) maps to a clear function:
 - Repeated use of `cin.ignore()` shows you're mindful of common pitfalls with mixed input methods. ✅
 - Would be even more robust with dynamic arrays or vectors (for future upgrades).
 - Potential extensions: CSV export, date range filtering, monthly report generation.
+
+
+```cpp
+#include <iostream>
+#include <string>
+using namespace std;
+
+const int MAX_EXPENSES = 100;
+
+class Expense {
+public:
+    string category;
+    string date;
+    float amount;
+    string description;
+
+    void input() {
+        cout << "Enter category: ";
+        getline(cin, category);
+        cout << "Enter date (DD-MM-YYYY): ";
+        getline(cin, date);
+        cout << "Enter amount: ";
+        cin >> amount;
+        cin.ignore(); // we used this here to clear newline due to complexity of program 
+        cout << "Enter description: ";
+        getline(cin, description);
+    }
+
+    void display(int index) const {
+        cout << "Expense #" << index + 1 << "\n";
+        cout << "Category   : " << category << "\n";
+        cout << "Date       : " << date << "\n";
+        cout << "Amount     : ?" << amount << "\n";
+        cout << "Description: " << description << "\n";
+        cout << "-------------------------\n";
+    }
+};
+
+class ExpenseManager {
+private:
+    Expense expenses[MAX_EXPENSES];
+    int count;
+
+public:
+    ExpenseManager() : count(0) {}
+
+    void addExpense() {
+        if (count >= MAX_EXPENSES) {
+            cout << "Cannot add more expenses.\n";
+            return;
+        }
+        cout << "\n--- Add New Expense ---\n";
+        expenses[count].input();
+        count++;
+        cout << "Expense added successfully.\n";
+    }
+
+    void viewAllExpenses() const {
+        if (count == 0) {
+            cout << "No expenses recorded.\n";
+            return;
+        }
+        cout << "\n--- All Expenses ---\n";
+        for (int i = 0; i < count; i++) {
+            expenses[i].display(i);
+        }
+    }
+
+    void viewByCategory() const {
+        if (count == 0) {
+            cout << "No expenses recorded.\n";
+            return;
+        }
+        cout << "Enter category to search: ";
+        string searchCategory;
+        getline(cin, searchCategory);
+        bool found = false;
+        for (int i = 0; i < count; i++) {
+            if (expenses[i].category == searchCategory) {
+                expenses[i].display(i);
+                found = true;
+            }
+        }
+        if (!found) {
+            cout << "No expenses found in category: " << searchCategory << "\n";
+        }
+    }
+
+    void viewTotalExpense() const {
+        float total = 0;
+        for (int i = 0; i < count; i++) {
+            total += expenses[i].amount;
+        }
+        cout << "Total Expenses: ?" << total << "\n";
+    }
+
+    void deleteExpense() {
+        if (count == 0) {
+            cout << "No expenses to delete.\n";
+            return;
+        }
+        cout << "Enter expense number to delete (1 to " << count << "): ";
+        int index;
+        cin >> index;
+        cin.ignore(); // this was used to clear newline and any sort of buffer 
+        if (index < 1 || index > count) {
+            cout << "Invalid index.\n";
+            return;
+        }
+        for (int i = index - 1; i < count - 1; i++) {
+            expenses[i] = expenses[i + 1];
+        }
+        count--;
+        cout << "Expense deleted.\n";
+    }
+};
+
+int main() {
+    ExpenseManager manager;  
+    int choice;
+
+    do {
+        cout << "\n===== Expense Tracker =====\n";
+        cout << "1. Add Expense\n";
+        cout << "2. View All Expenses\n";
+        cout << "3. View Expenses by Category\n";
+        cout << "4. View Total Expense\n";
+        cout << "5. Delete Expense\n";
+        cout << "6. Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+        cin.ignore(); // this is used to clear newline
+
+        switch (choice) {     //this is final options for all the output 
+        case 1: manager.addExpense(); break;
+        case 2: manager.viewAllExpenses(); break;
+        case 3: manager.viewByCategory(); break;
+        case 4: manager.viewTotalExpense(); break;
+        case 5: manager.deleteExpense(); break;
+        case 6: cout << "Exiting...\n"; break;
+        default: cout << "Invalid choice. Try again.\n";
+        }
+    } while (choice != 6);
+    
+return 0;
+}
+
+
+```
