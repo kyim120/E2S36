@@ -1,0 +1,7 @@
+- [x] Modify backend /upload endpoint to accept multiple files (up to 3), process each image, generate captions and objects, return list of results.
+- [x] Update frontend file input to accept multiple images (max 3).
+- [x] Modify frontend upload handler to send all selected files to /upload.
+- [x] Update frontend to store array of image data instead of single object.
+- [x] Change image panel to display multiple images in a grid layout.
+- [x] After upload, display captions for all images in the chat area.
+- [x] Test the changes with multiple image uploads.

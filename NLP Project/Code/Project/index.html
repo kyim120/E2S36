@@ -1,0 +1,850 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agentic Vision System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+
+  <body
+    class="bg-[#050d1f] text-white font-poppins flex flex-col h-screen overflow-hidden"
+  >
+    <!-- Landing Page -->
+    <div id="landing" class="page w-full h-screen">
+      <!-- Navbar -->
+      <header
+        class="flex justify-between items-center px-5 py-2 h-[50px] border-b border-gray-700"
+      >
+        <div class="text-xl font-semibold text-cyan-400">
+          Agentic Vision System
+        </div>
+        <nav>
+          <ul class="flex gap-5 font-medium">
+            <li>
+              <a href="#" id="nav-home" class="hover:text-cyan-400">Home</a>
+            </li>
+            <li>
+              <a href="#" id="nav-about" class="hover:text-cyan-400">About</a>
+            </li>
+            <li>
+              <a href="#" id="nav-contact" class="hover:text-cyan-400"
+                >Contact</a
+              >
+            </li>
+          </ul>
+        </nav>
+        <button
+          id="theme-toggle"
+          class="rounded-full w-8 h-8 text-cyan-400 bg-gradient-to-b from-neutral-800 to-neutral-900 shadow-md hover:bg-cyan-400 hover:text-black transition"
+        >
+          🌙
+        </button>
+      </header>
+
+      <!-- Hero Section -->
+      <main class="flex justify-between items-center px-16 py-10 min-h-[90vh]">
+        <!-- Text -->
+        <section class="max-w-[50%]">
+          <h2 class="text-lg text-gray-400 mb-2">Here and Now</h2>
+          <h1 class="text-[5rem] font-bold mb-5">
+            <span class="text-cyan-400 bg-[#222] px-2 rounded">F</span>UTURE
+          </h1>
+          <p class="max-w-[400px] text-gray-400 leading-relaxed mb-6">
+            Agentic Vision System is your AI-powered co-pilot — capable of
+            holding dynamic conversations, analyzing uploads, providing
+            insightful suggestions, and learning from every interaction to get
+            smarter over time.
+          </p>
+          <button
+            id="upload-btn"
+            class="px-7 py-3 text-lg font-bold rounded-lg bg-gradient-to-tr from-cyan-400 to-teal-300 text-black shadow-lg hover:scale-105 hover:shadow-xl transition"
+          >
+            Upload
+          </button>
+
+          <!-- Upload Modal -->
+          <div
+            id="upload-modal"
+            class="fixed inset-0 bg-black/50 hidden flex items-center justify-center z-50"
+          >
+            <div
+              class="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-2xl max-w-md w-full mx-4 relative"
+            >
+              <!-- Header -->
+              <h3
+                class="text-2xl font-bold mb-2 text-gray-900 dark:text-white flex items-center gap-2"
+              >
+                <!-- Icon -->
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-6 w-6 text-cyan-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M3 7v4a1 1 0 001 1h3m10 10h4a1 1 0 001-1v-4m-4-4l-5-5m0 0l-5 5m5-5v12"
+                  />
+                </svg>
+                Upload Images
+              </h3>
+              <p class="text-gray-600 dark:text-gray-300 mb-4">
+                Select up to
+                <span class="font-semibold text-cyan-400">3 images</span> to
+                analyze
+              </p>
+
+              <!-- File Input -->
+              <label
+                for="upload"
+                class="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-xl cursor-pointer border-gray-300 dark:border-gray-600 hover:border-cyan-400 transition bg-gray-50 dark:bg-gray-700"
+              >
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  class="h-12 w-12 text-gray-400 group-hover:text-cyan-400 mb-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M7 16V4a1 1 0 011-1h8a1 1 0 011 1v12m-5-4l-4 4m0 0l4 4m-4-4h12"
+                  />
+                </svg>
+                <span class="text-gray-500 dark:text-gray-300 text-sm"
+                  >Click to upload or drag & drop</span
+                >
+              <input
+                id="upload"
+                type="file"
+                accept="image/*"
+                multiple
+                class="hidden"
+              />
+            </label>
+
+            <!-- Image Previews -->
+            <div id="image-previews" class="grid grid-cols-3 gap-2 mt-4"></div>
+
+            <!-- Buttons -->
+              <div class="flex justify-end gap-3 mt-6">
+                <button
+                  id="cancel-upload"
+                  class="px-4 py-2 bg-gray-300 dark:bg-gray-600 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-400 dark:hover:bg-gray-500 transition"
+                >
+                  Cancel
+                </button>
+                <button
+                  id="submit-upload"
+                  class="px-4 py-2 bg-cyan-400 text-black rounded-lg hover:bg-cyan-500 transition font-semibold"
+                >
+                  Upload
+                </button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <!-- Robot + Info Boxes -->
+        <section class="flex items-center justify-center gap-5 py-10">
+          <div
+            class="bg-white/5 p-4 text-sm border-l-4 border-cyan-400 text-center text-white shadow-md backdrop-blur-md max-w-[200px]"
+          >
+            Technology<br />
+            <span class="text-gray-300"
+              >Beyond regular design, explore the future.</span
+            >
+          </div>
+          <img
+            src="robot.png"
+            alt="Futuristic Robot"
+            class="h-[70vh] object-cover rounded-2xl shadow-[0_0_30px_rgba(0,246,255,0.3),0_0_60px_rgba(0,246,255,0.2)] hover:scale-105 transition"
+          />
+          <div
+            class="bg-white/5 p-4 text-sm border-l-4 border-cyan-400 text-center text-white shadow-md backdrop-blur-md max-w-[200px]"
+          >
+            Innovation<br />
+            <span class="text-gray-300"
+              >Making imagination reality, today.</span
+            >
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- Chat Page -->
+    <div id="chat-ui" class="hidden page w-full h-screen">
+      <header
+        class="flex justify-between items-center px-5 py-2 h-[50px] border-b border-gray-700"
+      >
+        <div class="text-xl font-semibold text-cyan-400">
+          Agentic Vision System
+        </div>
+        <nav>
+          <ul class="flex gap-5 font-medium">
+            <li>
+              <a href="#" id="nav-home-chat" class="hover:text-cyan-400"
+                >Home</a
+              >
+            </li>
+            <li>
+              <a href="#" id="nav-about-chat" class="hover:text-cyan-400"
+                >About</a
+              >
+            </li>
+            <li>
+              <a href="#" id="nav-contact-chat" class="hover:text-cyan-400"
+                >Contact</a
+              >
+            </li>
+          </ul>
+        </nav>
+        <button
+          id="theme-toggle-2"
+          class="rounded-full w-8 h-8 text-cyan-400 bg-gradient-to-b from-neutral-800 to-neutral-900 shadow-md hover:bg-cyan-400 hover:text-black transition"
+        >
+          🌓
+        </button>
+      </header>
+
+      <main
+        class="flex justify-center items-center gap-5 h-[calc(100vh-50px)] px-5"
+      >
+        <!-- Chat Panel -->
+        <section
+          class="flex flex-col justify-between w-[42%] h-[85%] rounded-xl p-3 bg-white/5 border border-gray-700 shadow-inner"
+        >
+          <div
+            id="chatArea"
+            class="flex flex-col gap-2 pr-1 overflow-y-auto scrollbar-thin scrollbar-thumb-cyan-400"
+          >
+            <div
+              class="bg-[#1e2c48] self-start max-w-[75%] px-3 py-2 rounded-md text-sm"
+            >
+              Hi there! Upload up to 3 images to get started 👇
+            </div>
+          </div>
+          <div class="flex items-center gap-2 p-2 bg-white/5 rounded-full">
+            <input
+              id="message-input"
+              type="text"
+              placeholder="Type something..."
+              class="flex-1 px-4 py-2 text-sm rounded-full bg-white/10 border border-white/20 text-white shadow-inner focus:outline-none focus:ring-2 focus:ring-cyan-400"
+            />
+            <button
+              id="send-btn"
+              class="px-4 py-2 text-sm font-bold rounded-full bg-gradient-to-r from-cyan-400 to-cyan-600 text-black shadow-md hover:scale-105 transition"
+            >
+              ➤
+            </button>
+          </div>
+        </section>
+
+        <!-- Image Panel -->
+        <section
+          class="flex justify-center items-center w-[42%] h-[85%] rounded-xl p-3 bg-white/5 border border-gray-700 shadow-inner"
+        >
+          <div
+            id="image-container"
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 w-full h-full overflow-auto"
+          >
+            <img
+              id="preview"
+              src="/static/img/ai-avatar.png"
+              alt="AI Display"
+              class="max-w-full h-auto rounded-xl border-2 border-cyan-400 shadow-[0_0_20px_rgba(0,255,255,0.15),inset_0_0_10px_rgba(0,255,255,0.05)]"
+            />
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- About Page -->
+    <div id="about" class="hidden page w-full h-screen flex flex-col">
+      <header
+        class="flex justify-between items-center px-5 py-2 h-[50px] border-b border-gray-700"
+      >
+        <div class="text-xl font-semibold text-cyan-400">
+          Agentic Vision System
+        </div>
+        <nav>
+          <ul class="flex gap-5 font-medium">
+            <li>
+              <a href="#" id="nav-home-about" class="hover:text-cyan-400"
+                >Home</a
+              >
+            </li>
+            <li>
+              <a href="#" id="nav-about-about" class="hover:text-cyan-400"
+                >About</a
+              >
+            </li>
+            <li>
+              <a href="#" id="nav-contact-about" class="hover:text-cyan-400"
+                >Contact</a
+              >
+            </li>
+          </ul>
+        </nav>
+        <button
+          id="theme-toggle-about"
+          class="rounded-full w-8 h-8 text-cyan-400 bg-gradient-to-b from-neutral-800 to-neutral-900 shadow-md hover:bg-cyan-400 hover:text-black transition"
+        >
+          🌙
+        </button>
+      </header>
+      <main class="flex-1 flex items-center justify-center px-16 py-10">
+        <div class="max-w-4xl text-center">
+          <h1 class="text-5xl font-bold mb-6 text-cyan-400">About Us</h1>
+          <p class="text-lg text-gray-300 leading-relaxed mb-8">
+            Agentic Vision System is an advanced AI-powered platform designed to
+            revolutionize image and video analysis. Our system leverages
+            cutting-edge machine learning models to provide intelligent
+            captions, object detection, emotion recognition, and real-time
+            tracking capabilities. Whether you're a researcher, developer, or
+            enthusiast, our tools empower you to extract meaningful insights
+            from visual content with unprecedented accuracy and speed.
+          </p>
+          <div class="grid md:grid-cols-3 gap-6 mt-10">
+            <div class="bg-white/5 p-6 rounded-lg border border-gray-700">
+              <h3 class="text-xl font-semibold text-cyan-400 mb-3">
+                AI-Powered Analysis
+              </h3>
+              <p class="text-gray-400">
+                Utilizing state-of-the-art transformers and computer vision
+                models for accurate results.
+              </p>
+            </div>
+            <div class="bg-white/5 p-6 rounded-lg border border-gray-700">
+              <h3 class="text-xl font-semibold text-cyan-400 mb-3">
+                Real-Time Processing
+              </h3>
+              <p class="text-gray-400">
+                Fast and efficient processing of images and videos with minimal
+                latency.
+              </p>
+            </div>
+            <div class="bg-white/5 p-6 rounded-lg border border-gray-700">
+              <h3 class="text-xl font-semibold text-cyan-400 mb-3">
+                User-Friendly Interface
+              </h3>
+              <p class="text-gray-400">
+                Intuitive design that makes advanced AI capabilities accessible
+                to everyone.
+              </p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- Contact Page -->
+    <div id="contact" class="hidden page w-full h-screen flex flex-col">
+      <header
+        class="flex justify-between items-center px-5 py-2 h-[50px] border-b border-gray-700"
+      >
+        <div class="text-xl font-semibold text-cyan-400">
+          Agentic Vision System
+        </div>
+        <nav>
+          <ul class="flex gap-5 font-medium">
+            <li>
+              <a href="#" id="nav-home-contact" class="hover:text-cyan-400"
+                >Home</a
+              >
+            </li>
+            <li>
+              <a href="#" id="nav-about-contact" class="hover:text-cyan-400"
+                >About</a
+              >
+            </li>
+            <li>
+              <a href="#" id="nav-contact-contact" class="hover:text-cyan-400"
+                >Contact</a
+              >
+            </li>
+          </ul>
+        </nav>
+        <button
+          id="theme-toggle-contact"
+          class="rounded-full w-8 h-8 text-cyan-400 bg-gradient-to-b from-neutral-800 to-neutral-900 shadow-md hover:bg-cyan-400 hover:text-black transition"
+        >
+          🌙
+        </button>
+      </header>
+      <main class="flex-1 flex items-center justify-center px-16 py-10">
+        <div class="max-w-4xl w-full">
+          <h1 class="text-5xl font-bold mb-6 text-cyan-400 text-center">
+            Contact Us
+          </h1>
+          <div class="grid md:grid-cols-2 gap-10">
+            <div>
+              <h2 class="text-2xl font-semibold mb-4 text-white">
+                Get In Touch
+              </h2>
+              <p class="text-gray-300 mb-6">
+                Have questions about Agentic Vision System? Want to collaborate
+                or need support? We'd love to hear from you!
+              </p>
+              <div class="space-y-4">
+                <div class="flex items-center">
+                  <span class="text-cyan-400 mr-3">📧</span>
+                  <span class="text-gray-300">contact@agenticvision.com</span>
+                </div>
+                <div class="flex items-center">
+                  <span class="text-cyan-400 mr-3">📍</span>
+                  <span class="text-gray-300">San Francisco, CA</span>
+                </div>
+                <div class="flex items-center">
+                  <span class="text-cyan-400 mr-3">🐙</span>
+                  <span class="text-gray-300">github.com/agentic-vision</span>
+                </div>
+              </div>
+            </div>
+            <div class="bg-white/5 p-6 rounded-lg border border-gray-700">
+              <h3 class="text-xl font-semibold text-cyan-400 mb-4">
+                Send us a message
+              </h3>
+              <form class="space-y-4">
+                <div>
+                  <input
+                    type="text"
+                    placeholder="Your Name"
+                    class="w-full px-4 py-2 bg-white/10 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                  />
+                </div>
+                <div>
+                  <input
+                    type="email"
+                    placeholder="Your Email"
+                    class="w-full px-4 py-2 bg-white/10 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                  />
+                </div>
+                <div>
+                  <textarea
+                    placeholder="Your Message"
+                    rows="4"
+                    class="w-full px-4 py-2 bg-white/10 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-400"
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  class="w-full px-6 py-3 bg-gradient-to-r from-cyan-400 to-teal-300 text-black font-bold rounded-lg hover:scale-105 transition"
+                >
+                  Send Message
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <script>
+      // 🌟 HTML Element References
+      const uploadBtn = document.getElementById("upload-btn");
+      const uploadInput = document.getElementById("upload");
+      const uploadModal = document.getElementById("upload-modal");
+      const cancelUploadBtn = document.getElementById("cancel-upload");
+      const submitUploadBtn = document.getElementById("submit-upload");
+      const landingPage = document.getElementById("landing");
+      const chatUI = document.getElementById("chat-ui");
+      const previewImg = document.getElementById("preview");
+      const previewVideo = document.getElementById("preview-video"); // In case you have a video element too
+      const chatArea = document.getElementById("chatArea");
+      const sendBtn = document.getElementById("send-btn");
+      const textInput = document.getElementById("message-input");
+      const framePreviewArea = document.getElementById("frame-preview-area"); // For frame thumbnails
+      const html = document.documentElement;
+
+      // 🌟 Store uploaded media data
+      let currentImageData = [];
+      let selectedFiles = [];
+
+      // 🌟 Upload button click shows modal
+      uploadBtn.addEventListener("click", () => {
+        uploadModal.classList.remove("hidden");
+      });
+
+      // 🌟 Cancel upload
+      cancelUploadBtn.addEventListener("click", () => {
+        uploadModal.classList.add("hidden");
+        uploadInput.value = ""; // Clear selection
+        selectedFiles = []; // Clear selected files
+        document.getElementById("image-previews").innerHTML = ""; // Clear previews
+      });
+
+      // 🌟 Handle file selection for previews
+      uploadInput.addEventListener("change", (event) => {
+        const files = Array.from(event.target.files);
+        const previewsContainer = document.getElementById("image-previews");
+
+        // Add new files to selectedFiles, avoiding duplicates
+        files.forEach(file => {
+          if (!selectedFiles.some(f => f.name === file.name && f.size === file.size)) {
+            selectedFiles.push(file);
+          }
+        });
+
+        // Limit to 3
+        if (selectedFiles.length > 3) {
+          alert("Please select up to 3 images only.");
+          selectedFiles = selectedFiles.slice(0, 3);
+        }
+
+        // Clear and display all selected files
+        previewsContainer.innerHTML = "";
+        selectedFiles.forEach((file, index) => {
+          if (file.type.startsWith("image/")) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+              const img = document.createElement("img");
+              img.src = e.target.result;
+              img.className = "w-full h-20 object-cover rounded-lg border-2 border-cyan-400";
+              img.title = file.name;
+              previewsContainer.appendChild(img);
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      });
+
+      // 🌟 Submit upload
+      submitUploadBtn.addEventListener("click", async () => {
+        if (selectedFiles.length > 0 && selectedFiles.length <= 3) {
+          uploadModal.classList.add("hidden");
+          await handleUpload(selectedFiles);
+          selectedFiles = []; // Clear after upload
+        } else {
+          alert("Please select 1 to 3 image files.");
+        }
+      });
+
+      // 🌟 Handle upload function
+      async function handleUpload(files) {
+        const formData = new FormData();
+        files.forEach((file) => formData.append("files", file));
+
+        landingPage.classList.add("hidden");
+        chatUI.classList.remove("hidden");
+
+        sendBtn.disabled = true;
+        sendBtn.style.opacity = "0.5";
+        sendBtn.style.cursor = "not-allowed";
+
+        const loadingMsg = document.createElement("div");
+        loadingMsg.className = "bubble left";
+        loadingMsg.textContent = "🔄 Processing your uploads...";
+        loadingMsg.id = "processing-msg";
+        chatArea.appendChild(loadingMsg);
+        chatArea.scrollTop = chatArea.scrollHeight;
+
+        // 👁️ Preview all images
+        const container = document.getElementById("image-container");
+        container.innerHTML = ""; // Clear default
+        files.forEach((file) => {
+          const reader = new FileReader();
+          reader.onload = function (e) {
+            const img = document.createElement("img");
+            img.src = e.target.result;
+            img.className =
+              "max-w-full h-auto rounded-xl border-2 border-cyan-400 shadow-[0_0_20px_rgba(0,255,255,0.15),inset_0_0_10px_rgba(0,255,255,0.05)]";
+            container.appendChild(img);
+          };
+          reader.readAsDataURL(file);
+        });
+
+        try {
+          const response = await fetch("/upload", {
+            method: "POST",
+            body: formData,
+          });
+
+          const data = await response.json();
+
+          currentImageData = data;
+
+          const processingMsg = document.getElementById("processing-msg");
+          if (processingMsg) processingMsg.remove();
+
+          addBotMessage(
+            "✅ Upload complete! Captions generated for all images! 📸"
+          );
+          data.forEach((item) => {
+            addBotMessage(`🖼️ ${item.filename}: ${item.caption}`);
+          });
+        } catch (error) {
+          console.error("Upload failed:", error);
+
+          const processingMsg = document.getElementById("processing-msg");
+          if (processingMsg) processingMsg.remove();
+
+          addBotMessage("❌ Upload failed. Please try again.");
+        } finally {
+          sendBtn.disabled = false;
+          sendBtn.style.opacity = "1";
+          sendBtn.style.cursor = "pointer";
+        }
+      }
+
+      // 🌟 Send message function
+      // 🌟 Send message function
+      async function sendMessage() {
+        const userMessage = textInput.value.trim();
+        if (userMessage) {
+          addUserMessage(userMessage);
+          textInput.value = "";
+
+          try {
+            const typingIndicator = addTypingIndicator();
+
+            const response = await fetch("/process", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                prompt: userMessage,
+                filepath: currentImageData[0].filepath,
+                is_video: currentImageData[0].is_video,
+                caption: currentImageData[0].caption,
+                objects: currentImageData[0].objects,
+              }),
+            });
+
+            const data = await response.json();
+            chatArea.removeChild(typingIndicator);
+
+            if (data.response) {
+              addBotMessage(data.response);
+            }
+
+            // Handle annotated images
+            if (data.annotated_image) {
+              previewImg.src = data.annotated_image + "?t=" + Date.now(); // cache bust
+            }
+
+            // Handle video results
+            if (data.frame_previews && data.frame_previews.length > 0) {
+              showFramesOnRight(data.frame_previews);
+            }
+
+            // Handle tracked video
+            if (data.video_path) {
+              previewVideo.src = data.video_path + "?t=" + Date.now();
+              previewVideo.style.display = "block";
+              previewImg.style.display = "none";
+            }
+          } catch (error) {
+            console.error("Error:", error);
+            addBotMessage("❌ Error during request. Please try again.");
+          }
+        }
+      }
+
+      // Improved frame display function
+      function showFramesOnRight(frames) {
+        framePreviewArea.innerHTML = "<h4>Key Frames:</h4>";
+        const container = document.createElement("div");
+        container.className = "frame-container";
+
+        frames.forEach((src) => {
+          const frameDiv = document.createElement("div");
+          frameDiv.className = "frame-item";
+
+          const img = document.createElement("img");
+          img.src = src;
+          img.className = "frame-thumb";
+
+          frameDiv.appendChild(img);
+          container.appendChild(frameDiv);
+        });
+
+        framePreviewArea.appendChild(container);
+      }
+      // 🌟 Helper functions
+      function addUserMessage(text) {
+        const msg = document.createElement("div");
+        msg.className = "bubble right";
+        msg.textContent = text;
+        chatArea.appendChild(msg);
+        chatArea.scrollTop = chatArea.scrollHeight;
+      }
+
+      function addBotMessage(text) {
+        const msg = document.createElement("div");
+        msg.className = "bubble left";
+        msg.textContent = text;
+        chatArea.appendChild(msg);
+        chatArea.scrollTop = chatArea.scrollHeight;
+      }
+
+      function addTypingIndicator() {
+        const indicator = document.createElement("div");
+        indicator.className = "bubble left";
+        indicator.textContent = "Typing...";
+        indicator.id = "typing-indicator";
+        chatArea.appendChild(indicator);
+        chatArea.scrollTop = chatArea.scrollHeight;
+        return indicator;
+      }
+
+      function showFramesOnRight(frames) {
+        framePreviewArea.innerHTML = "";
+        frames.forEach((src) => {
+          const img = document.createElement("img");
+          img.src = src;
+          img.className = "frame-thumb";
+          framePreviewArea.appendChild(img);
+        });
+      }
+
+      // 🌟 Event Listeners
+      sendBtn.addEventListener("click", sendMessage);
+      textInput.addEventListener("keydown", (e) => {
+        if (e.key === "Enter") {
+          e.preventDefault();
+          sendMessage();
+        }
+      });
+
+      // 🌟 Optional: Theme toggling
+      html.setAttribute("data-theme", "dark");
+
+      // 🌟 Navigation functions
+      function showPage(pageId) {
+        const pages = ["landing", "chat-ui", "about", "contact"];
+        pages.forEach((id) => {
+          const page = document.getElementById(id);
+          if (page) {
+            page.classList.add("hidden");
+          }
+        });
+        const targetPage = document.getElementById(pageId);
+        if (targetPage) {
+          targetPage.classList.remove("hidden");
+        }
+      }
+
+      // 🌟 Theme toggle function
+      function toggleTheme() {
+        const html = document.documentElement;
+        const body = document.body;
+        const isDark = html.classList.contains("dark");
+
+        if (isDark) {
+          html.classList.remove("dark");
+          html.classList.add("light");
+          body.classList.remove("bg-[#050d1f]");
+          body.classList.add("bg-gray-100");
+          body.classList.remove("text-white");
+          body.classList.add("text-gray-900");
+          // Update theme buttons
+          document.querySelectorAll('[id^="theme-toggle"]').forEach((btn) => {
+            btn.textContent = "☀️";
+          });
+        } else {
+          html.classList.remove("light");
+          html.classList.add("dark");
+          body.classList.remove("bg-gray-100");
+          body.classList.add("bg-[#050d1f]");
+          body.classList.remove("text-gray-900");
+          body.classList.add("text-white");
+          // Update theme buttons
+          document.querySelectorAll('[id^="theme-toggle"]').forEach((btn) => {
+            btn.textContent = "🌙";
+          });
+        }
+      }
+
+      // 🌟 Navigation event listeners
+      document.getElementById("nav-home").addEventListener("click", (e) => {
+        e.preventDefault();
+        showPage("landing");
+      });
+      document.getElementById("nav-about").addEventListener("click", (e) => {
+        e.preventDefault();
+        showPage("about");
+      });
+      document.getElementById("nav-contact").addEventListener("click", (e) => {
+        e.preventDefault();
+        showPage("contact");
+      });
+
+      document
+        .getElementById("nav-home-chat")
+        .addEventListener("click", (e) => {
+          e.preventDefault();
+          showPage("landing");
+        });
+      document
+        .getElementById("nav-about-chat")
+        .addEventListener("click", (e) => {
+          e.preventDefault();
+          showPage("about");
+        });
+      document
+        .getElementById("nav-contact-chat")
+        .addEventListener("click", (e) => {
+          e.preventDefault();
+          showPage("contact");
+        });
+
+      document
+        .getElementById("nav-home-about")
+        .addEventListener("click", (e) => {
+          e.preventDefault();
+          showPage("landing");
+        });
+      document
+        .getElementById("nav-about-about")
+        .addEventListener("click", (e) => {
+          e.preventDefault();
+          showPage("about");
+        });
+      document
+        .getElementById("nav-contact-about")
+        .addEventListener("click", (e) => {
+          e.preventDefault();
+          showPage("contact");
+        });
+
+      document
+        .getElementById("nav-home-contact")
+        .addEventListener("click", (e) => {
+          e.preventDefault();
+          showPage("landing");
+        });
+      document
+        .getElementById("nav-about-contact")
+        .addEventListener("click", (e) => {
+          e.preventDefault();
+          showPage("about");
+        });
+      document
+        .getElementById("nav-contact-contact")
+        .addEventListener("click", (e) => {
+          e.preventDefault();
+          showPage("contact");
+        });
+
+      // 🌟 Theme toggle event listeners
+      document
+        .getElementById("theme-toggle")
+        .addEventListener("click", toggleTheme);
+      document
+        .getElementById("theme-toggle-2")
+        .addEventListener("click", toggleTheme);
+      document
+        .getElementById("theme-toggle-about")
+        .addEventListener("click", toggleTheme);
+      document
+        .getElementById("theme-toggle-contact")
+        .addEventListener("click", toggleTheme);
+    </script>
+  </body>
+</html>
