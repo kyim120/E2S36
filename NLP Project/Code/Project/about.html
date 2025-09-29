@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Agentic Vision System - About</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            accent: '#00f0ff',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-gray-900 text-white min-h-screen">
+
+  <!-- Navbar -->
+  <header class="flex justify-between items-center p-4 border-b border-gray-700">
+    <div class="text-xl font-semibold text-accent">Agentic Vision System</div>
+    <nav>
+      <ul class="flex space-x-4">
+        <li><a href="home.html" class="hover:text-accent">Home</a></li>
+        <li><a href="about.html" class="hover:text-accent">About</a></li>
+        <li><a href="contact.html" class="hover:text-accent">Contacts</a></li>
+      </ul>
+    </nav>
+    <button id="theme-toggle" class="bg-gray-800 text-accent rounded-full w-8 h-8">🌙</button>
+  </header>
+
+  <!-- About Section -->
+  <main class="p-16">
+    <h1 class="text-4xl font-bold mb-8 text-accent">About Agentic Vision System</h1>
+    <p class="text-gray-300 leading-relaxed mb-6">
+      The Agentic Vision System is an advanced AI-powered platform designed to revolutionize how we interact with visual data. Leveraging cutting-edge computer vision and natural language processing technologies, our system provides intelligent analysis, dynamic conversations, and actionable insights from images and videos.
+    </p>
+    <p class="text-gray-300 leading-relaxed mb-6">
+      Our mission is to make AI accessible and useful for everyone, from researchers to everyday users, by creating tools that learn and adapt to individual needs.
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
+      <div class="bg-white bg-opacity-5 p-6 rounded-lg shadow-lg">
+        <h3 class="text-xl font-semibold mb-4 text-accent">Vision Analysis</h3>
+        <p class="text-gray-300">Advanced object detection and scene understanding from uploaded media.</p>
+      </div>
+      <div class="bg-white bg-opacity-5 p-6 rounded-lg shadow-lg">
+        <h3 class="text-xl font-semibold mb-4 text-accent">Conversational AI</h3>
+        <p class="text-gray-300">Engage in natural conversations about your visual content with our AI assistant.</p>
+      </div>
+      <div class="bg-white bg-opacity-5 p-6 rounded-lg shadow-lg">
+        <h3 class="text-xl font-semibold mb-4 text-accent">Continuous Learning</h3>
+        <p class="text-gray-300">The system improves with every interaction, providing better insights over time.</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="/static/js/script.js" defer></script>
+</body>
+</html>

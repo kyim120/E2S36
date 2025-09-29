@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Agentic Vision System - Contact</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            accent: '#00f0ff',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-gray-900 text-white min-h-screen">
+
+  <!-- Navbar -->
+  <header class="flex justify-between items-center p-4 border-b border-gray-700">
+    <div class="text-xl font-semibold text-accent">Agentic Vision System</div>
+    <nav>
+      <ul class="flex space-x-4">
+        <li><a href="home.html" class="hover:text-accent">Home</a></li>
+        <li><a href="about.html" class="hover:text-accent">About</a></li>
+        <li><a href="contact.html" class="hover:text-accent">Contacts</a></li>
+      </ul>
+    </nav>
+    <button id="theme-toggle" class="bg-gray-800 text-accent rounded-full w-8 h-8">🌙</button>
+  </header>
+
+  <!-- Contact Section -->
+  <main class="p-16">
+    <h1 class="text-4xl font-bold mb-8 text-accent">Contact Us</h1>
+    <p class="text-gray-300 leading-relaxed mb-6">
+      Have questions or feedback about the Agentic Vision System? We'd love to hear from you!
+    </p>
+    <div class="max-w-md">
+      <form class="space-y-4">
+        <div>
+          <label class="block text-sm font-medium mb-2">Name</label>
+          <input type="text" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-2">Email</label>
+          <input type="email" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white" />
+        </div>
+        <div>
+          <label class="block text-sm font-medium mb-2">Message</label>
+          <textarea rows="4" class="w-full p-3 bg-gray-800 border border-gray-600 rounded-lg text-white"></textarea>
+        </div>
+        <button type="submit" class="bg-accent text-black px-6 py-3 rounded-lg font-bold hover:bg-opacity-80">Send Message</button>
+      </form>
+    </div>
+  </main>
+
+  <script src="/static/js/script.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,30 @@
+README - Vision System Project (By Faizan Rasool and Anoosha Alina)
+
+1. First, upload the entire 'project' folder to your Google Drive.
+   This folder contains:
+   - templates/index.html
+   - static/uploads/
+   - other required files
+
+2. Then open your Colab notebook and mount your Google Drive:
+
+   from google.colab import drive
+   drive.mount('/content/drive')
+
+3. Make sure your code (main.py) points to the correct drive path:
+   Example: /content/drive/MyDrive/project
+
+4. Install required libraries in Colab:
+   !pip install fastapi uvicorn transformers torch torchvision torchaudio
+   !pip install opencv-python pillow deepface pyngrok
+   !pip install ultralytics
+
+5. Edit the API Key in main.py with your OpenRouter key:
+   API_KEY = "sk-or-xxxxxxxxxxxxxxxxxxxxxxx"
+
+6. Run the FastAPI server in Colab:
+   !python main.py
+
+7. Ngrok will print a public URL. Open that URL in your browser to access the app.
+
+That’s it!

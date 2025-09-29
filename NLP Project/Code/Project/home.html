@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Agentic Vision System - Home</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            accent: '#00f0ff',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+
+<body class="bg-gray-900 text-white min-h-screen">
+
+  <!-- Navbar -->
+  <header class="flex justify-between items-center p-4 border-b border-gray-700">
+    <div class="text-xl font-semibold text-accent">Agentic Vision System</div>
+    <nav>
+      <ul class="flex space-x-4">
+        <li><a href="home.html" class="hover:text-accent">Home</a></li>
+        <li><a href="about.html" class="hover:text-accent">About</a></li>
+        <li><a href="contact.html" class="hover:text-accent">Contacts</a></li>
+      </ul>
+    </nav>
+    <button id="theme-toggle" class="bg-gray-800 text-accent rounded-full w-8 h-8">🌙</button>
+  </header>
+
+  <!-- Hero Section -->
+  <main class="flex justify-between items-center p-16 min-h-[90vh]">
+    <section class="flex-1 max-w-2xl">
+      <h2 class="text-lg text-gray-400 mb-2">Here and Now</h2>
+      <h1 class="text-6xl font-bold mb-4"><span class="bg-gray-800 text-accent px-2 rounded">F</span>UTURE</h1>
+      <p class="text-gray-300 leading-relaxed mb-8 max-w-md">
+        Agentic Vision System is your AI-powered co-pilot — capable of holding dynamic conversations, analyzing uploads, providing insightful suggestions, and learning from every interaction to get smarter over time.
+      </p>
+      <button id="upload-btn" class="bg-gradient-to-r from-accent to-green-400 text-black px-6 py-3 rounded-lg font-bold shadow-lg hover:scale-105">Upload</button>
+      <input type="file" id="upload" accept="image/*" multiple style="display: none;" />
+    </section>
+
+    <section class="flex-1 flex items-center justify-center space-x-4">
+      <div class="bg-white bg-opacity-5 p-4 rounded-lg border-l-4 border-accent max-w-xs text-center shadow-lg">
+        Technology<br><span class="text-sm">Beyond regular design, explore the future.</span>
+      </div>
+      <img src="/static/img/robot.png" alt="Futuristic Robot" class="h-96 rounded-lg shadow-lg hover:scale-105 transition" />
+      <div class="bg-white bg-opacity-5 p-4 rounded-lg border-l-4 border-accent max-w-xs text-center shadow-lg">
+        Innovation<br><span class="text-sm">Making imagination reality, today.</span>
+      </div>
+    </section>
+  </main>
+
+  <!-- Upload Modal -->
+  <div id="upload-modal" class="fixed inset-0 bg-black bg-opacity-50 hidden flex items-center justify-center z-50">
+    <div class="bg-gray-800 p-6 rounded-lg max-w-md w-full">
+      <h3 class="text-xl mb-4">Upload 3 Images</h3>
+      <input type="file" id="modal-upload" accept="image/*" multiple class="mb-4" />
+      <div id="image-preview" class="grid grid-cols-3 gap-2 mb-4"></div>
+      <button id="upload-confirm" class="bg-accent text-black px-4 py-2 rounded">Upload</button>
+      <button id="modal-close" class="ml-2 bg-gray-600 px-4 py-2 rounded">Close</button>
+    </div>
+  </div>
+
+  <script src="/static/js/script.js" defer></script>
+</body>
+</html>
